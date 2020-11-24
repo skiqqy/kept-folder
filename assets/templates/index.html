@@ -3,5 +3,42 @@
 		background-color:black;
 		color:white
 	}
+
+	a {
+		color:#DC143C
+	}
+
+	.header {
+		padding: 60px;
+		text-align: center;
+		font-size: 30px;
+	}
+
+	.para {
+		text-align: center;
+		font-size:15
+	}
 </style>
-<h1>Welcome to the kept server</h1>
+<div class=header>Welcome to the kept server</div>
+<div class=para>
+	<p>
+		Kept is an encrypted todo hosting service, consisinting of a folder
+		and a client, for more information please visit the
+		<a href=https://wiki.skiqqy.xyz/en/kept>wiki</a>!
+	</p>
+	<p>
+		This is an instance of <a href=https://github.com/skiqqy/kept-folder>kept</a>,
+		or also known as a 'folder'
+	</p>
+	<p>
+		<details>
+			<summary>
+				Please note, you need a key to use kept further, click here to generate one.
+			</summary>
+			<form action="/genkey"nic>
+				<label for="fname">Nickname:</label>
+				<input type="text" id="nic" name="nic"><br><br>
+			</form>
+		</details>
+	</p>
+</div>
