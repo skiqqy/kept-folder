@@ -1,13 +1,13 @@
-def append_log(path, key, val, misc=None):
+def append_log(entry, path="disk/log/log"):
+    f = open(path, "a")
+    f.write(entry + "\n")
+    f.close()
+
+def write_keyval(key, val, misc=None, path="disk/log/keys"):
     entry = key + "^" + val
     if misc != None:
         entry += "^" + misc
-    entry += "\n"
-    f = open(path, "a")
-    f.write(entry)
-
-def write_keyval(key, val, misc=None, path="disk/log/keys"):
-    append_log(path, key, val, misc)
+    append_log(entry, path=path)
 
 def search_log(path, key):
     f = open(path, "r")
