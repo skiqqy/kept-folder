@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request
 from hashlib import sha256
 from datetime import datetime
+from os import system
 
 # My libs
 import helper
@@ -19,6 +20,7 @@ def genkey():
     if helper.search_key(nic) == None: # Check that this user does not have a key
         val = sha256((nic + str(datetime.now())).encode('utf-8')).hexdigest()
         helper.write_keyval(nic, val, misc=str(datetime.now())) # Generate and store the key
+        system("mkdir disk/users/" + nic)
         return render_template('key_success.html', nic=nic, key=val)
     else:
         error = str("Failed to generate a key for '%s', a key already exists." % nic)

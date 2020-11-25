@@ -6,7 +6,7 @@ def append_log(path, key, val, misc=None):
     f = open(path, "a")
     f.write(entry)
 
-def write_keyval(key, val, misc=None, path="disk/keys/log"):
+def write_keyval(key, val, misc=None, path="disk/log/keys"):
     append_log(path, key, val, misc)
 
 def search_log(path, key):
@@ -17,12 +17,12 @@ def search_log(path, key):
             return line
     return None
 
-def search_key(key, path="disk/keys/log"):
+def search_key(key, path="disk/log/keys"):
     return search_log(path, key)
 
 if __name__ == '__main__':
-    write_keyval("key1", "val1", path="test/keys/log")
-    write_keyval("key2", "val2", "misc", path="test/keys/log")
-    print(search_log("test/keys/log", "key1"))
-    print(search_log("test/keys/log", "key2"))
-    print(search_log("test/keys/log", "key3"))
+    write_keyval("key1", "val1", path="test/log/keys")
+    write_keyval("key2", "val2", "misc", path="test/log/keys")
+    print(search_log("test/log/keys", "key1"))
+    print(search_log("test/log/keys", "key2"))
+    print(search_log("test/log/keys", "key3"))
