@@ -1,4 +1,10 @@
+# Needed libs
 from flask import Flask, render_template, request
+from hashlib import sha256
+from datetime import datetime
+
+# My libs
+import helper
 
 app = Flask(__name__)
 
@@ -9,12 +15,13 @@ def main():
 @app.route("/genkey", methods = ["GET"])
 def genkey():
     nic = request.args.get('nic')
-    key = "TODO"
 
     # TODO: Check that this user does not have a key
     if True:
         # TODO: Store this users key.
-        return render_template('key_success.html', nic=nic, key=key)
+        val = sha256((nic + str(datetime.now())).encode('utf-8')).hexdigest()
+        helper.write_keyval(nic, val)
+        return render_template('key_success.html', nic=nic, key=val)
     else:
         error = str("Failed to generate a key for '%s', a key already exists." % nic)
         return render_template('error.html', etype='key', error=error)
