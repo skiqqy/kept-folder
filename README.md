@@ -6,3 +6,6 @@ The server for kept.
 ````
 $ ./main.sh
 ````
+
+## TODO
+- [ ] Design api
