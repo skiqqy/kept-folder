@@ -34,7 +34,7 @@ def genkey():
     log("genkey attempt [%s] -> nic:%s, ip:%s" % (status, nic, request.remote_addr))
     return template
 
-@app.route("/take/note", methods = ["POST"])
+@app.route("/upload/note", methods = ["POST"])
 def takenote():
     try:
         nic = request.form.get('nic').lower()
