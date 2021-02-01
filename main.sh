@@ -5,4 +5,4 @@ rm -rf test
 mkdir -p {disk,test}/{users,log}
 touch {disk,test}/log/{keys,log}
 pip3 install --user -r ./deps.txt
-python3 -m flask run
+python3 -m flask run --host=0.0.0.0
