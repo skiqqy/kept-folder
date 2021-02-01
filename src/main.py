@@ -4,6 +4,7 @@ from hashlib import sha256
 from datetime import datetime
 from os import system
 from helper import append_log as log
+from helper import ret_status as ret_status
 
 # My libs
 import helper
@@ -31,6 +32,20 @@ def genkey():
 
     log("genkey attempt [%s] -> nic:%s, ip:%s" % (status, nic, request.remote_addr))
     return template
+
+@app.route("/take/note", methods = ["POST"])
+def takenote():
+    nic = request.form.get('nic').lower()
+    key = request.form.get('key').lower()
+    log_key = helper.search_key(nic)
+    if log_key!= None:
+        if log_key.split('^')[1] == key:
+            code = 0
+        else:
+            code = 1
+    else:
+        code = 2
+    return ret_status(code, route=str("/take/note from %s" % request.remote_addr))
 
 def setup():
     app.template_folder = "../assets/templates/"

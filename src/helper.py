@@ -18,6 +18,10 @@ def search_log(path, key):
             return line
     return None
 
+def ret_status(code, data=None, route='UNKOWN ROUTE'):
+    append_log('Route Access ' + str(route) + ' : Status Code: ' + str(code))
+    return {'status':code, 'data':data}
+
 def search_key(key, path="disk/log/keys"):
     return search_log(path, key)
 
