@@ -9,6 +9,7 @@ from helper import ret_status as ret_status
 # My libs
 import helper
 
+work_dir = 'disk'
 app = Flask(__name__)
 
 @app.route('/')
@@ -35,16 +36,25 @@ def genkey():
 
 @app.route("/take/note", methods = ["POST"])
 def takenote():
-    nic = request.form.get('nic').lower()
-    key = request.form.get('key').lower()
+    try:
+        nic = request.form.get('nic').lower()
+        key = request.form.get('key').lower()
+        fname = request.form.get('fname').lower()
+        content = request.form.get('content').lower()
+    except:
+        return ret_status(1, route=str("/take/note from %s" % request.remote_addr))
+
     log_key = helper.search_key(nic)
     if log_key!= None:
         if log_key.split('^')[1] == key:
             code = 0
+            f = open(str('%s/users/%s/%s' % (work_dir, nic, fname)), "w") # open the file
+            f.write(content)
+            f.close()
         else:
-            code = 1
+            code = 2
     else:
-        code = 2
+        code = 3
     return ret_status(code, route=str("/take/note from %s" % request.remote_addr))
 
 def setup():
