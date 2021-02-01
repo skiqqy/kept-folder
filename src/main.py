@@ -71,16 +71,17 @@ def givenote():
     log_key = helper.search_key(nic)
     if log_key!= None:
         if log_key.split('^')[1] == key:
-            f = open('%s/users/%s/%s' % (work_dir, nic, fname), "r").read().splitlines() # Open for reading
+            try:
+                f = open('%s/users/%s/%s' % (work_dir, nic, fname), "r").read().splitlines() # Open for reading
+                content = ''
+                for s in f:
+                    content += s + '\n'
+                data = {'content':content, 'fname':fname}
 
-            content = ''
-            for s in f:
-                print(s)
-                content += s
-            data = {'file':content}
-
-            log('Sending ./%s/users/%s/%s to %s' % (work_dir, nic, fname, request.remote_addr))
-            code = 0
+                log('Sending ./%s/users/%s/%s to %s' % (work_dir, nic, fname, request.remote_addr))
+                code = 0
+            except:
+                code = 4
         else:
             code = 2
     else:
