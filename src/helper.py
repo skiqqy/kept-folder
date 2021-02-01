@@ -1,6 +1,7 @@
 def append_log(entry, path="disk/log/log"):
     f = open(path, "a")
     f.write(entry + "\n")
+    print(entry)
     f.close()
 
 def write_keyval(key, val, misc=None, path="disk/log/keys"):
