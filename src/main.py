@@ -48,9 +48,10 @@ def takenote():
     if log_key!= None:
         if log_key.split('^')[1] == key:
             code = 0
-            f = open(str('%s/users/%s/%s' % (work_dir, nic, fname)), "w") # open the file
+            f = open('%s/users/%s/%s' % (work_dir, nic, fname), "w") # open the file
             f.write(content)
             f.close()
+            log('[FILE IO] ./%s/users/%s/%s from %s' % (work_dir, nic, fname, request.remote_addr))
         else:
             code = 2
     else:
