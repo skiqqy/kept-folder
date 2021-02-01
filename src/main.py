@@ -42,21 +42,50 @@ def takenote():
         fname = request.form.get('fname').lower()
         content = request.form.get('content').lower()
     except:
-        return ret_status(1, route=str("/take/note from %s" % request.remote_addr))
+        return ret_status(1, route=str("/upload/note from %s" % request.remote_addr))
 
     log_key = helper.search_key(nic)
     if log_key!= None:
         if log_key.split('^')[1] == key:
             code = 0
             f = open('%s/users/%s/%s' % (work_dir, nic, fname), "w") # open the file
-            f.write(content)
+            f.write(content + '\n')
             f.close()
             log('[FILE IO] ./%s/users/%s/%s from %s' % (work_dir, nic, fname, request.remote_addr))
         else:
             code = 2
     else:
         code = 3
-    return ret_status(code, route=str("/take/note from %s" % request.remote_addr))
+    return ret_status(code, route=str("/upload/note from %s" % request.remote_addr))
+
+@app.route("/download/note", methods = ["POST"])
+def givenote():
+    data = None
+    try:
+        nic = request.form.get('nic').lower()
+        key = request.form.get('key').lower()
+        fname = request.form.get('fname').lower()
+    except:
+        return ret_status(1, route=str("/download/note from %s" % request.remote_addr))
+
+    log_key = helper.search_key(nic)
+    if log_key!= None:
+        if log_key.split('^')[1] == key:
+            f = open('%s/users/%s/%s' % (work_dir, nic, fname), "r").read().splitlines() # Open for reading
+
+            content = ''
+            for s in f:
+                print(s)
+                content += s
+            data = {'file':content}
+
+            log('Sending ./%s/users/%s/%s to %s' % (work_dir, nic, fname, request.remote_addr))
+            code = 0
+        else:
+            code = 2
+    else:
+        code = 3
+    return ret_status(code, data=data, route=str("/download/note from %s" % request.remote_addr))
 
 def setup():
     app.template_folder = "../assets/templates/"
