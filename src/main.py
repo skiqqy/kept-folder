@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, jsonify
 from hashlib import sha256
 from datetime import datetime
 from os import system
+from os import getenv
 from helper import append_log as log
 from helper import ret_status as ret_status
 
@@ -10,6 +11,7 @@ from helper import ret_status as ret_status
 import helper
 
 work_dir = 'disk'
+KEPT_FOLDER_AC = False
 app = Flask(__name__)
 
 @app.route('/')
@@ -18,6 +20,9 @@ def main():
 
 @app.route("/genkey", methods = ["GET"])
 def genkey():
+    if not KEPT_FOLDER_AC:
+        error = "Account creation is currently disabled."
+        return render_template('error.html', etype='Account Creation', error=error)
     nic = request.args.get('nic').lower()
 
     if helper.search_key(nic) == None: # Check that this user does not have a key
@@ -89,6 +94,9 @@ def givenote():
     return ret_status(code, data=data, route=str("/download/note from %s" % request.remote_addr))
 
 def setup():
+    global KEPT_FOLDER_AC
+    if getenv("KEPT_FOLDER_AC") == "1":
+        KEPT_FOLDER_AC = True
     app.template_folder = "../assets/templates/"
 
 setup()
